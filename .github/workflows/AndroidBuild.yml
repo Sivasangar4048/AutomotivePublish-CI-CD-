@@ -23,12 +23,12 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Gradle
-        run: ./gradlew assemble${{ matrix.flavor.capitalize() }}Debug
+        run: ./gradlew assemble${{ matrix.flavor }}Debug
         env:
-          matrix.flavor: ${{ matrix.flavor }}
+          MATRIX_FLAVOR: ${{ matrix.flavor }}
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: AndroidBuild-${{ matrix.flavor }}.apk
-          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/app-${{ matrix.flavor }}-debug.apk
+          name: AndroidBuild-${{ env.MATRIX_FLAVOR }}.apk
+          path: app/build/outputs/apk/${{ env.MATRIX_FLAVOR }}/debug/app-${{ env.MATRIX_FLAVOR }}-debug.apk
