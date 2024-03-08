@@ -4,7 +4,6 @@ plugins {
 }
 
 android {
-    namespace = "com.example.androidci_cd"
     compileSdk = 34
 
     defaultConfig {
@@ -25,7 +24,47 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
     }
+
+    productFlavors {
+        create("Siva"){
+            dimension="brand"
+            versionCode =1
+            versionName="1.0"
+            applicationId = "com.app.siva"
+        }
+        create("Sangar"){
+            dimension="brand"
+            versionCode =1
+            versionName="1.0"
+            applicationId = "com.app.sangar"
+        }
+        create("Oreo"){
+            dimension="brand"
+            versionCode =1
+            versionName="1.0"
+            applicationId = "com.app.oreo"
+        }
+        create("Production"){
+            dimension="server"
+            applicationIdSuffix = ".production"
+            versionNameSuffix="-production"
+        }
+        create("Stage"){
+            dimension="server"
+            applicationIdSuffix = ".stage"
+            versionNameSuffix="-stage"
+        }
+    }
+    namespace = "com.example.androidci_cd"
+    flavorDimensions += listOf("brand", "server")
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

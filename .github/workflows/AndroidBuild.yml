@@ -2,13 +2,16 @@ name: AndroidBuild
 
 on:
   pull_request:
-    branches: [master]
+    branches: [ master ]
   push:
-    branches: [master]
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor: ["Siva", "Sangar", "Oreo", "Production", "Stage"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -20,10 +23,12 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew assemble${{ matrix.flavor.capitalize() }}Debug
+        env:
+          matrix.flavor: ${{ matrix.flavor }}
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: AndroidBuild.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: AndroidBuild-${{ matrix.flavor }}.apk
+          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/app-${{ matrix.flavor }}-debug.apk
