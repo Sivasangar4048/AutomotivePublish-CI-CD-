@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flavor: ["Siva", "Sangar", "Oreo", "Production", "Stage"]
+        flavor: ["Siva", "Sangar", "Production", "Stage"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -25,9 +25,9 @@ jobs:
       - name: Build with Gradle
         run: |
           if [ "${{ matrix.flavor }}" == "Production" ]; then
-            ./gradlew assembleOreoProductionDebug
+            ./gradlew assembleProductionDebug
           elif [ "${{ matrix.flavor }}" == "Stage" ]; then
-            ./gradlew assembleOreoStageDebug
+            ./gradlew assembleStageDebug
           else
             ./gradlew assemble${{ matrix.flavor }}Debug
           fi

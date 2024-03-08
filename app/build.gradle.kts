@@ -46,12 +46,6 @@ android {
             versionName="1.0"
             applicationId = "com.app.sangar"
         }
-        create("Oreo"){
-            dimension="brand"
-            versionCode =1
-            versionName="1.0"
-            applicationId = "com.app.oreo"
-        }
         create("Production"){
             dimension="server"
             applicationIdSuffix = ".production"
