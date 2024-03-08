@@ -23,12 +23,17 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Gradle
-        run: ./gradlew assemble${{ matrix.flavor }}Debug
-        env:
-          MATRIX_FLAVOR: ${{ matrix.flavor }}
+        run: |
+          if [ "${{ matrix.flavor }}" == "Production" ]; then
+            ./gradlew assembleOreoProductionDebug
+          elif [ "${{ matrix.flavor }}" == "Stage" ]; then
+            ./gradlew assembleOreoStageDebug
+          else
+            ./gradlew assemble${{ matrix.flavor }}Debug
+          fi
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: AndroidBuild-${{ env.MATRIX_FLAVOR }}.apk
-          path: app/build/outputs/apk/${{ env.MATRIX_FLAVOR }}/debug/app-${{ env.MATRIX_FLAVOR }}-debug.apk
+          name: AndroidBuild-${{ matrix.flavor }}.apk
+          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/app-${{ matrix.flavor }}-debug.apk
