@@ -2,9 +2,9 @@ name: AndroidBuild
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -20,10 +20,16 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew assemble
 
-      - name: Upload a Build Artifact
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: AndroidBuild.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: ${{ matrix.flavor }}-AndroidBuild.apk
+          path: app/build/outputs/apk/${{ matrix.flavor }}/app-${{ matrix.flavor }}.apk
+        env:
+          GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+    strategy:
+      matrix:
+        flavor: [Siva, Sangar, Production, Stage]
