@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4.3.1
         with:
           name: ${{ matrix.flavor }}-AndroidBuild.apk
-          path: app/build/outputs/apk/${{ matrix.flavor }}/app-${{ matrix.flavor }}.apk
+          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/*.apk
         env:
           GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
