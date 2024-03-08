@@ -32,4 +32,4 @@ jobs:
 
     strategy:
       matrix:
-        flavor: [Siva, Sangar, Production, Stage]
+        flavor: [SivaStage, Sangar, Production, Stage]
