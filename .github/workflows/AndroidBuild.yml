@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        flavor: ["Production", "Stage"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -23,17 +20,10 @@ jobs:
           distribution: 'adopt'
 
       - name: Build with Gradle
-        run: |
-          if [ "${{ matrix.flavor }}" == "Production" ]; then
-            ./gradlew assembleProductionDebug
-          elif [ "${{ matrix.flavor }}" == "Stage" ]; then
-            ./gradlew assembleStageDebug
-          else
-            ./gradlew assemble${{ matrix.flavor }}Debug
-          fi
+        run: ./gradlew build
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: AndroidBuild-${{ matrix.flavor }}.apk
-          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/app-${{ matrix.flavor }}-debug.apk
+          name: AndroidBuild.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
